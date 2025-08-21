@@ -13,22 +13,18 @@ import jakarta.validation.constraints.*;
 
 public class Usuario {
 
-    @NotNull(message = "o email é obrigatorio")
-    @Email(message= " email invalido")
-    private String email;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message= "O nome não pode estar vazio")
-    @Size(min = 3, max = 100, message =  "O nome deve ter entre 3 e 100")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, length = 100)
     private String nome;
 
-    @NotNull(message = "Senha é um campo obrigatorio")
-    @Size(min = 6, max = 50, message = "A senha deve conter a seguinte range")
+    @Column(nullable = false, length = 50)
     private String password;
-
 
     // ========== Ainda não implementado =============
 

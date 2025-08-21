@@ -7,16 +7,16 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 public class UsuarioRequestDTO {
+    
+        @NotNull(message = "O email é obrigatório")
+        @Email(message = "Email inválido")
+        String email;
 
-    @NotBlank(message = "o nome é obrigatorio")
-    @Size(min= 3, max = 100, message = " o compode de ter entre 3 a 100 caracteres")
-    private String nome;
+        @NotBlank(message = "O nome não pode estar vazio")
+        @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
+        String nome;
 
-    @NotBlank(message = "o email é obrigatorio")
-    @Email(message= " E-mail invalido")
-    private String email;
-
-    @NotBlank(message = "A senha é obrigatoria")
-    @Size(min =6, message = "A senha deve ter pelo menos 6 caracteres")
-    private String password;
+        @NotNull(message = "Senha é obrigatória")
+        @Size(min = 6, max = 50, message = "A senha deve ter entre 6 e 50 caracteres")
+        String password;
 }

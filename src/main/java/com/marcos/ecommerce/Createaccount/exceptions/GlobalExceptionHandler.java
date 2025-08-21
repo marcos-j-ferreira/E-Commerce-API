@@ -1,4 +1,4 @@
-package com.marcos.ecommerce.exceptions;
+package com.marcos.ecommerce.creaetaccout.exceptions;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,12 +8,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+//import 
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    //@Autowired
+    //ResponseErro responseError(404, );
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationErrors(
+    public ResponseEntity<ResponseErro> handleValidationErrors(
             MethodArgumentNotValidException ex) {
 
         Map<String, String> errors = new HashMap<>();
@@ -22,12 +28,16 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
-        return ResponseEntity.badRequest().body(errors);
+        ResponseErro responseErr = new ResponseErro(400, errors, "/api/v1/creaetaccout/");
+        return ResponseEntity.badRequest().header("content-Type", "application/json").body(responseErr);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException ex) {
+    public ResponseEntity<ResponseErro> handleIllegalArgument(IllegalArgumentException ex) {
         Map<String, String> error = Map.of("error", ex.getMessage());
-        return ResponseEntity.badRequest().body(error);
+
+        ResponseErro responseErr = new ResponseErro(400, error, "/api/v1/creataccout");
+
+        return ResponseEntity.badRequest().header("Content-Type","application/json").body(responseErr);
     }
 }
