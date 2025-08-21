@@ -1,4 +1,4 @@
-package com.marcos.ecommerce.creataccount.payload;
+package com.marcos.ecommerce.createaccount.payload;
 
 import lombok.*;
 

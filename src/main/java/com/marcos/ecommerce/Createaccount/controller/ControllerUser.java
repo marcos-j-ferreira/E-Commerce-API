@@ -18,10 +18,10 @@ import org.springframework.http.HttpHeaders;
 import com.marcos.ecommerce.createaccount.service.UsuarioService;
 import com.marcos.ecommerce.createaccount.payload.UsuarioRequestDTO;
 
-import com.marcos.ecommerce.creataccount.payload.UsuarioResponseDTO;
+import com.marcos.ecommerce.createaccount.payload.UsuarioResponseDTO;
 
 @RestController
-@RequestMapping("creataccount")
+@RequestMapping("/api/v1/creataccount/")
 public class ControllerUser {
 
     @Autowired
@@ -36,12 +36,12 @@ public class ControllerUser {
         return status;
     }
 
-    @PostMapping("/")
+    @PostMapping("/new")
     public final ResponseEntity<UsuarioResponseDTO> creatAccount(@RequestBody @Valid UsuarioRequestDTO userDTO){
 
         String response = userService.createUser(userDTO);
         int status = 409;
-        if(response == "Usuário criado com sucesso"){
+        if(response.equals("Usuário criado com sucesso")){
             status = 200;
         }
 

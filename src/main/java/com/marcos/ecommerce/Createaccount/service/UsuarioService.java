@@ -7,6 +7,8 @@ import com.marcos.ecommerce.createaccount.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//import com.marcos.ecommerce.createaccount.securityconfig.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +16,28 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+
     //injeção de depenências via Autowired
     @Autowired 
-    private UsuarioRepository usuarioRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder){
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String createUser(UsuarioRequestDTO userDTO) {
+
+        String getPasswordEncode = passwordEncoder.encode(userDTO.getPassword());
+
+        System.out.println(getPasswordEncode);
 
         // Criar a entidade Usuario e salvar
         Usuario usuario = new Usuario();
         usuario.setNome(userDTO.getNome());
         usuario.setEmail(userDTO.getEmail());
-        usuario.setPassword(userDTO.getPassword());
+        usuario.setPassword(getPasswordEncode);
+        //usuario.setPassword(encodePassword.encode(userDTO.getPassword()));
 
 
         // String existEmail = usuarioRepository.findUserByEmail(usuario.getEmail());
