@@ -14,16 +14,11 @@ import java.util.List;
 @Service
 public class UsuarioService {
 
-    @Autowired
+    //injeção de depenências via Autowired
+    @Autowired 
     private UsuarioRepository usuarioRepository;
 
     public String createUser(UsuarioRequestDTO userDTO) {
-
-        // Validação simples dos campos
-        if (userDTO.getNome() == null || userDTO.getEmail() == null || userDTO.getPassword() == null ||
-            userDTO.getNome().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getPassword().isEmpty()) {
-            return "Erro na criação de usuário: dados inválidos";
-        }
 
         // Criar a entidade Usuario e salvar
         Usuario usuario = new Usuario();
@@ -31,8 +26,26 @@ public class UsuarioService {
         usuario.setEmail(userDTO.getEmail());
         usuario.setPassword(userDTO.getPassword());
 
-        usuarioRepository.save(usuario);
 
+        // String existEmail = usuarioRepository.findUserByEmail(usuario.getEmail());
+        // if(existEmail == usuario.getEmail()){
+        //     return "email já em uso";
+        // }
+
+        boolean existEmail = usuarioRepository.existsByEmail(usuario.getEmail());
+
+        if(existEmail){
+            return "O e-mail informado já está em uso";
+        }
+
+        System.out.println(existEmail + "  banco : "+ userDTO.getEmail());
+
+        if (userDTO.getNome() == null || userDTO.getEmail() == null || userDTO.getPassword() == null ||
+            userDTO.getNome().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getPassword().isEmpty()) {
+            return "Erro na criação de usuário: dados inválidos";
+        }
+
+        usuarioRepository.save(usuario);
         return "Usuário criado com sucesso";
     }
 }

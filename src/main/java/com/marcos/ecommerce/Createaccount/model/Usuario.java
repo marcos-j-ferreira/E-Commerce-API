@@ -13,12 +13,12 @@ import jakarta.validation.constraints.*;
 
 public class Usuario {
 
-    @Id
     @NotNull(message = "o email é obrigatorio")
     @Email(message= " email invalido")
     private String email;
 
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message= "O nome não pode estar vazio")
