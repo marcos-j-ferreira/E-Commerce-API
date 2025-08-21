@@ -41,7 +41,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	developmentOnly 'org.springframework.boot:lombok:1.18.30'
+	//developmentOnly 'org.springframework.boot:lombok:1.18.30'
 }
 
 tasks.named('test') {
