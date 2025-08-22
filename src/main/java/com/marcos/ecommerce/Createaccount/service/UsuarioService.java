@@ -50,8 +50,7 @@ public class UsuarioService {
         if(existEmail){
             return "O e-mail informado já está em uso";
         }
-
-        System.out.println(existEmail + "  banco : "+ userDTO.getEmail());
+        //System.out.println(existEmail + "  banco : "+ userDTO.getEmail());
 
         if (userDTO.getNome() == null || userDTO.getEmail() == null || userDTO.getPassword() == null ||
             userDTO.getNome().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getPassword().isEmpty()) {
@@ -88,6 +87,14 @@ public class UsuarioService {
                 return "Informações atualizadas com sucesso.";
             })
             .orElse("Erro na atualização: usuário não encontrado.");
+    }
+
+    public final String deleteUser(Long id){
+        if(usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+            return "Conta deletado com sucesso";
+        }
+        return "Erro ao deletar conta";
     }
 
 }

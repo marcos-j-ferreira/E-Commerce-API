@@ -14,8 +14,8 @@ public class Authorization{
         http
             .csrf().disable()
             .authorizeHttpRequests(auth -> auth
-                //.requestMatchers("/api/v1/creataccount/newUser").permitAll()
-                .requestMatchers("/api/v1/creataccount/**").permitAll()
+                //.requestMatchers("/api/v1/creataccount/delete/**").permitAll()
+                .requestMatchers("/api/v1/creataccount/new").permitAll()
                 .anyRequest().authenticated()
             );
 
