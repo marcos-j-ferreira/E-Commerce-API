@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 //import com.marcos.ecommerce.createaccount.securityconfig.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +30,7 @@ public class UsuarioService {
     public String createUser(UsuarioRequestDTO userDTO) {
 
         String getPasswordEncode = passwordEncoder.encode(userDTO.getPassword());
-
-        System.out.println(getPasswordEncode);
+        //System.out.println(getPasswordEncode);
 
         // Criar a entidade Usuario e salvar
         Usuario usuario = new Usuario();
@@ -61,6 +61,35 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return "Usuário criado com sucesso";
     }
+
+    public String updatUser(UsuarioRequestDTO userDTO) {
+
+        Long usuarioId = usuarioRepository.findByEmail(userDTO.getEmail())
+                .map(Usuario::getId)
+                .orElse(null);  
+
+        String getPasswordEncode = userDTO.getPassword() != null
+                ? passwordEncoder.encode(userDTO.getPassword())
+                : null;
+
+        return usuarioRepository.findById(usuarioId)
+            .map(usuario -> {
+                if (userDTO.getNome() != null) {
+                    usuario.setNome(userDTO.getNome());
+                }
+                if (getPasswordEncode != null) {
+                    usuario.setPassword(getPasswordEncode);
+                }
+                if (userDTO.getEmail() != null) {
+                    usuario.setEmail(userDTO.getEmail());
+                }
+
+                usuarioRepository.save(usuario);
+                return "Informações atualizadas com sucesso.";
+            })
+            .orElse("Erro na atualização: usuário não encontrado.");
+    }
+
 }
 
 // @Service

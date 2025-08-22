@@ -53,5 +53,20 @@ public class ControllerUser {
                 .body(responseDTO);
     }
 
+    @PostMapping("/update")
+    public final ResponseEntity<UsuarioResponseDTO> updateUser(@RequestBody UsuarioRequestDTO userDto){
+
+        String response = userService.updatUser(userDto);
+
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(201, response, "/api/v1/creataccount");
+
+        return ResponseEntity
+                .status(201)
+                .header("Content-Type", "application/json")
+                .body(responseDTO);
+    }
+
+    
+
     
 }
