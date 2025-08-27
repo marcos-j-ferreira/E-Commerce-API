@@ -48,7 +48,7 @@ public class ControllerUser {
             status = 200;
         }
 
-        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(status, response, "/api/v1/creataccout/");
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(status, response, "/api/v1/createaccout/");
 
         return ResponseEntity
                 .status(status)
@@ -61,7 +61,7 @@ public class ControllerUser {
 
         String response = userService.updatUser(userDto);
 
-        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(201, response, "/api/v1/creataccount");
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(201, response, "/api/v1/createaccount");
 
         return ResponseEntity
                 .status(201)

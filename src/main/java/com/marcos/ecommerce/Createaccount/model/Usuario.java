@@ -5,6 +5,10 @@ import lombok.*;
 
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
+import com.marcos.ecommerce.criarprodutos.enty.Produtos;
+
 @Entity
 @Table(name = "usuario")
 @Data
@@ -25,6 +29,9 @@ public class Usuario {
 
     @Column(nullable = false, length = 255)
     private String password;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Produtos> produtos;
 
     // ========== Ainda não implementado =============
 

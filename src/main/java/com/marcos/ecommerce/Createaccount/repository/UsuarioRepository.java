@@ -37,6 +37,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
     // @Query("DELETE FROM User u WHERE u.email = :email")
     // void deleteByEmailCustom(@Param("email") String email);
+
+    @Query("SELECT u.id FROM Usuario u WHERE u.email = :email")
+    Long searchByEmail(@Param("email") String email);
     
 }
 
