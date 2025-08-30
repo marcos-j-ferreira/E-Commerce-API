@@ -35,6 +35,7 @@ public class Authorization {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/creataccount/new").permitAll()
                 .requestMatchers("/api/v1/auth/login").permitAll()
+                .requestMatchers("/api/v1/search/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

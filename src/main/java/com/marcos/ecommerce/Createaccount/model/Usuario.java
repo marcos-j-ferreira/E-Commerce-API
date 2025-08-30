@@ -8,6 +8,7 @@ import jakarta.validation.constraints.*;
 import java.util.List;
 
 import com.marcos.ecommerce.criarprodutos.enty.Produtos;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "usuario")
@@ -31,6 +32,7 @@ public class Usuario {
     private String password;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private List<Produtos> produtos;
 
     // ========== Ainda não implementado =============

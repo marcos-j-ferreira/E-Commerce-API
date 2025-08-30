@@ -13,13 +13,18 @@ import java.util.Optional;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
 @Repository
-public interface ProdutoRepository extends JpaRepository<Produtos, Long>{
+public interface ProdutoRepository extends JpaRepository<Produtos, Long>, JpaSpecificationExecutor<Produtos> {
 
     List<Produtos> findByNome(String nome);
     List<Produtos> findByPrecoGreaterThan(Double preco);
     List<Produtos> findByUsuarioId(Long usuarioId);
+    
     Optional<Produtos> findByIdAndUsuarioId(Long produtoId, Long usuarioId);
+
+    void deleteById(Long id);
 
     //OptionalupdateProduto;
 

@@ -74,4 +74,9 @@ public class ServiceProduto{
             })
              .orElse("Erro na atualização: usuario nçao encontrao");
     }
+
+    public final String deleteProduct(long id){
+        produtoRepository.deleteById(id);
+        return "Produto deletado com sucesso";
+    }
 }
