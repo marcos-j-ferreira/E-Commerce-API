@@ -1,0 +1,156 @@
+Essas são todos as rotas da minha api, e seu corpos e métodos:
+
+
+rota criar conta: 
+http://192.168.1.111:8080/api/v1/creataccount/new
+Metodo: Post;
+body:
+{
+	"nome":"bmw",
+	"email":"bmw@gmail.com",
+	"password": "12345678"
+}
+
+
+rota update user, atualizar algum dado, menos a senha.
+http://192.168.1.111:8080/api/v1/creataccount/update
+metodo: Post;
+body:
+{
+	"nome":"Thor",
+	"email":"batman-table@gmail.com",
+	"password": "12345678"
+}
+
+Rota para deletar uma conta, passado o id:
+http://192.168.1.111:8080/api/v1/creataccount/delete/1
+metodo: Delete;
+
+
+Rota teste run, verificar se a APi está rodando normalmente:
+http://192.168.1.111:8080/api/v1/creataccount/run
+metodo: get
+body:
+{
+    sem corpo
+}
+
+
+
+
+Segunda coleção login:
+
+
+Essa rota efetua o login no sistema: 
+http://192.168.1.111:8080/api/v1/auth/login
+metodo: Post;
+body:
+{
+	"email":"celta@gmail.com",
+	"password":"12345678"
+}
+
+volta um token
+
+exempo: 
+
+{
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY3MjE4MTUsImV4cCI6MTc1NjcyMjE3NX0.R5x4papd3PmsR6tabq03OU9kLRF9gwA-sB0sNmq3ZAA"
+}
+
+
+Rota para deletar um User
+http://192.168.1.111:8080/api/v1/creataccount/delete/7
+metodo: Delete
+Necessario estar com token no header
+body{
+    sem corpo
+}
+
+
+Rota para testar o Token:
+http://192.168.1.111:8080/api/v1/auth/token
+metodo: Get
+necessario o token no header;
+body{
+    sem corpo.
+}
+
+
+terceira coleção 
+
+Essa rota cria uma novo produto no sistema
+http://192.168.1.111:8080/api/v1/produtos/criar
+metodo: Post;
+necessario o token
+body:
+{
+	"nome":"ferrari",
+	"preco": 5891432,
+	"estoque": 2,
+	"descricao":" the fast car",
+	"email":"celta@gmail.com"
+}
+
+
+Essa rota deleta um produto:
+http://192.168.1.111:8080/api/v1/produtos/delete/3
+metodo: Delete;
+nocessario o token
+{
+    sem corpo
+}
+
+Essa rota atualiza um produto
+http://192.168.1.111:8080/api/v1/produtos/update
+metodo Post
+necessario token
+body:
+{
+	"nome":"leg day",
+	"preco": 120,
+	"estoque": 2,
+	"descricao":" this amazing exercice",
+	"email":"fiat@gmail.com"
+}
+
+Essa rota testa se a api produtos está funcionando
+http://192.168.1.111:8080/api/v1/produtos/
+metodos Post
+necessario autenticação
+
+
+Quarta coleção
+
+
+Essa coleção só tem uma rota, mas é muito flexivel em suas pesquisa, podendo ser feito por prço, nome... ou ambos
+
+http://192.168.1.111:8080/api/v1/search?minPreco=500&nome=ferrari
+metodo Get
+Não necessita de token nem corpo.
+
+
+
+Quinta coleção é o carrinho
+
+Essa rota adiciona algo no carrinho de um usuario:
+http://192.168.1.111:8080/api/v1/carrinho/adicionar
+metodos: Post
+necessario token
+body:
+{
+  "userId": "1",
+  "produtoId": "prod456",
+  "quantidade": 2
+}
+
+
+última rota:
+essa rota verifica o carrinho de algum usuario:
+http://192.168.1.111:8080/api/v1/carrinho/6
+metodo Get
+com autenticaçaõ
+
+
+
+
