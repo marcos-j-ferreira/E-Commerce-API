@@ -2,9 +2,7 @@ package com.marcos.ecommerce.account.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import jakarta.validation.constraints.*;
-
 import java.util.List;
 
 import com.marcos.ecommerce.product.entity.Product;
@@ -34,18 +32,4 @@ public class User {
     @OneToMany(mappedBy = "usuario")
     @JsonIgnore
     private List<Product> produtos;
-
-    // ========== Ainda não implementado =============
-
-    // Um usuário pode ter muitos produtos:
-
-    // @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<Produto> produto;
-
-    // um produto pode ter somente um usuario
-    // Criação da foreign key "usuario_email" referenciando o email do Usuario
-    // @ManyToOne
-    // @joinColum(name = "usuario_email", referencedColumnName = "email", nullable = false)
-    // private Usuario usuario;
-
 }

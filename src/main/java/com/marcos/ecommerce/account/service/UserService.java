@@ -1,18 +1,12 @@
 package com.marcos.ecommerce.account.service;
 
-import com.marcos.ecommerce.account.entity.User;
 import com.marcos.ecommerce.account.dtos.CreateUserRequest;
 import com.marcos.ecommerce.account.repository.UserRepository;
+import com.marcos.ecommerce.account.entity.User;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-//import com.marcos.ecommerce.account.securityconfig.PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -20,106 +14,65 @@ public class UserService {
     private final UserRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    //injeção de depenências via Autowired
     @Autowired 
     public UserService(UserRepository usuarioRepository, PasswordEncoder passwordEncoder){
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public String createUser(CreateUserRequest userDTO) {
+    public String createUser(CreateUserRequest dataForCreatingAnAccountUserRequestDTO) {
+        User newUser = new User();
+        String getPasswordEncode = passwordEncoder.encode(dataForCreatingAnAccountUserRequestDTO.getPassword());
 
-        String getPasswordEncode = passwordEncoder.encode(userDTO.getPassword());
-        //System.out.println(getPasswordEncode);
+        newUser.setNome(dataForCreatingAnAccountUserRequestDTO.getNome());
+        newUser.setEmail(dataForCreatingAnAccountUserRequestDTO.getEmail());
+        newUser.setPassword(getPasswordEncode);
 
-        // Criar a entidade Usuario e salvar
-        User usuario = new User();
-        usuario.setNome(userDTO.getNome());
-        usuario.setEmail(userDTO.getEmail());
-        usuario.setPassword(getPasswordEncode);
-        //usuario.setPassword(encodePassword.encode(userDTO.getPassword()));
-
-
-        // String existEmail = usuarioRepository.findUserByEmail(usuario.getEmail());
-        // if(existEmail == usuario.getEmail()){
-        //     return "email já em uso";
-        // }
-
-        boolean existEmail = usuarioRepository.existsByEmail(usuario.getEmail());
-
-        if(existEmail){
-            return "O e-mail informado já está em uso";
-        }
-        //System.out.println(existEmail + "  banco : "+ userDTO.getEmail());
-
-        if (userDTO.getNome() == null || userDTO.getEmail() == null || userDTO.getPassword() == null ||
-            userDTO.getNome().isEmpty() || userDTO.getEmail().isEmpty() || userDTO.getPassword().isEmpty()) {
-            return "Erro na criação de usuário: dados inválidos";
+        boolean existEmailOfUser = usuarioRepository.existsByEmail(newUser.getEmail());
+        if(existEmailOfUser){
+            return "The email provided is already in use";
         }
 
-        usuarioRepository.save(usuario);
-        return "Usuário criado com sucesso";
+        if (dataForCreatingAnAccountUserRequestDTO.getNome() == null || dataForCreatingAnAccountUserRequestDTO.getEmail() == null || dataForCreatingAnAccountUserRequestDTO.getPassword() == null ||
+            dataForCreatingAnAccountUserRequestDTO.getNome().isEmpty() || dataForCreatingAnAccountUserRequestDTO.getEmail().isEmpty() || dataForCreatingAnAccountUserRequestDTO.getPassword().isEmpty()) {
+            return "Error creating user: invalid data";
+        }
+        usuarioRepository.save(newUser);
+        return "User created sucessfuly";
     }
 
-    public String updatUser(CreateUserRequest userDTO) {
-
-        Long usuarioId = usuarioRepository.findByEmail(userDTO.getEmail())
+    public String updatUser(CreateUserRequest dataForUpdateUserRequestDTO) {
+        Long userId = usuarioRepository.findByEmail(dataForUpdateUserRequestDTO.getEmail())
                 .map(User::getId)
                 .orElse(null);  
 
-        String getPasswordEncode = userDTO.getPassword() != null
-                ? passwordEncoder.encode(userDTO.getPassword())
+        String getPasswordEncode = dataForUpdateUserRequestDTO.getPassword() != null
+                ? passwordEncoder.encode(dataForUpdateUserRequestDTO.getPassword())
                 : null;
 
-        return usuarioRepository.findById(usuarioId)
-            .map(usuario -> {
-                if (userDTO.getNome() != null) {
-                    usuario.setNome(userDTO.getNome());
+        return usuarioRepository.findById(userId)
+            .map(user -> {
+                if (dataForUpdateUserRequestDTO.getNome() != null) {
+                    dataForUpdateUserRequestDTO.setNome(dataForUpdateUserRequestDTO.getNome());
                 }
                 if (getPasswordEncode != null) {
-                    usuario.setPassword(getPasswordEncode);
+                    user.setPassword(getPasswordEncode);
                 }
-                if (userDTO.getEmail() != null) {
-                    usuario.setEmail(userDTO.getEmail());
+                if (dataForUpdateUserRequestDTO.getEmail() != null) {
+                    dataForUpdateUserRequestDTO.setEmail(dataForUpdateUserRequestDTO.getEmail());
                 }
 
-                usuarioRepository.save(usuario);
-                return "Informações atualizadas com sucesso.";
+                usuarioRepository.save(user);
+                return "Information updated sucessfully";
             })
-            .orElse("Erro na atualização: usuário não encontrado.");
+            .orElse("Update error: user not found");
     }
-
-    public final String deleteUser(Long id){
-        if(usuarioRepository.existsById(id)){
-            usuarioRepository.deleteById(id);
-            return "Conta deletado com sucesso";
+    
+    public final String deleteUser(Long userIdByPathVariable){
+        if(usuarioRepository.existsById(userIdByPathVariable)){
+            usuarioRepository.deleteById(userIdByPathVariable);
+            return "Account deleted sucessfully";
         }
-        return "Erro ao deletar conta";
+        return "Error deleting account";
     }
-
 }
-
-// @Service
-// public class UsuarioService {
-
-//     @Autowired UsuarioRepository usuarioRepository;
-
-//     public final String createUser( UsuarioRequestDTO userDTO){
-
-//         List<String> data = new ArrayList<>();
-
-//         data.add(userDTO.getNome());
-//         data.add(userDTO.getEmail());
-//         data.add(userDTO.getPassword());
-
-//         if(!data.isEmpty()){
-//             return "Erro na criação de usuario";
-//         }else{
-//             usuarioRepository.save(data.get(0), data.get(1), data.get(2));
-//             return "usuario criado com sucesso;";
-//         }
-
-//     }
-
-
-// }

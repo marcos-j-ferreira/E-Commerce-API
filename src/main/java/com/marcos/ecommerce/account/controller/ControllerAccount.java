@@ -4,88 +4,76 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import jakarta.validation.Valid;
 
-// métodos
-//import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
 
 import com.marcos.ecommerce.account.service.UserService;
 import com.marcos.ecommerce.account.dtos.CreateUserRequest;
-
 import com.marcos.ecommerce.account.dtos.UserSummaryResponse;
 
 @RestController
-@RequestMapping("/api/v1/creataccount")
+@RequestMapping("/api/v1/users")
 public class ControllerAccount {
 
     @Autowired
     private UserService userService;
 
-    // @Autowired
-    // private UsuarioResponseDTO usuarioResponse;
+    private String path = "/api/v1/users/createAccount/1.0.6";
 
     @GetMapping("/run")
     public final String testeRun(){
-        String status = "{\"Status\": \" API rodando com sucesso \" }";
-        return status;
+        String statusResponse = "{\"Status\":\"Api running successfully\", \"Test\":\"My applications is runing with devoolss\"}";
+        return statusResponse;
     }
 
-    @PostMapping("/new")
-    public final ResponseEntity<UserSummaryResponse> creatAccount(@RequestBody @Valid CreateUserRequest userDTO){
-
-        String response = userService.createUser(userDTO);
-        int status = 409;
-        if(response.equals("Usuário criado com sucesso")){
-            status = 200;
+    @PostMapping("/newUsers")
+    public final ResponseEntity<UserSummaryResponse> createAccount(@RequestBody @Valid CreateUserRequest userRequestDTO){
+        
+        String response = userService.createUser(userRequestDTO);
+        int statusResponse = 409;
+        if(response.equals("User created successful")){
+            statusResponse = 200;
         }
 
-        UserSummaryResponse responseDTO = new UserSummaryResponse(status, response, "/api/v1/createaccout/");
-
+        UserSummaryResponse UserResponseDTO = new UserSummaryResponse(statusResponse, response, path);
         return ResponseEntity
-                .status(status)
+                .status(statusResponse)
                 .header("Content-Type","application/json")
-                .body(responseDTO);
+                .body(UserResponseDTO);
     }
 
     @PostMapping("/update")
-    public final ResponseEntity<UserSummaryResponse> updateUser(@RequestBody CreateUserRequest userDto){
+    public final ResponseEntity<UserSummaryResponse> updateUser(@RequestBody CreateUserRequest UserRequestDTO){
 
-        String response = userService.updatUser(userDto);
-
-        UserSummaryResponse responseDTO = new UserSummaryResponse(201, response, "/api/v1/createaccount");
+        String responseUserService = userService.updatUser(UserRequestDTO);
+        UserSummaryResponse UserResponseDTO = new UserSummaryResponse(201, responseUserService, path);
 
         return ResponseEntity
                 .status(201)
                 .header("Content-Type", "application/json")
-                .body(responseDTO);
+                .body(UserResponseDTO);
     }
 
     @DeleteMapping("/delete/{id}")
-    public final ResponseEntity<UserSummaryResponse> deleteUser(@PathVariable Long id){
-        String response = userService.deleteUser(id);
+    public final ResponseEntity<UserSummaryResponse> deleteUser(@PathVariable Long UserId){
 
-        int status = 404;
+        String responseUserService = userService.deleteUser(UserId);
+        int statusResponse = 404;
 
-        if(response.equals("Conta deletado com sucesso")){
-            status = 204;    
+        if(responseUserService.equals("account deleted sucessfully")){
+            statusResponse = 204;    
         }
-
-        UserSummaryResponse responseDTO = new UserSummaryResponse(status, response, "/api/v1/creataccount");
-
+        UserSummaryResponse responseUserDeleteById = new UserSummaryResponse(statusResponse, responseUserService, path);
 
         return ResponseEntity
                 .status(200)
                 .header("Content-Type", "application/json")
-                .body(responseDTO);
-    }    
+                .body(responseUserDeleteById);
+    }
 }
-

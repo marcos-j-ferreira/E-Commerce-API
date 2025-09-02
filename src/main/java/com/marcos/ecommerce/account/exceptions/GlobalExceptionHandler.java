@@ -1,26 +1,23 @@
 package com.marcos.ecommerce.account.exceptions;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
-
-//import 
-import org.springframework.beans.factory.annotation.Autowired;
-
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    //@Autowired
-    //ResponseErro responseError(404, );
+    private String path = "/api/v1/users/createAccount/1.0.6";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseErro> handleValidationErrors(
@@ -32,7 +29,7 @@ public class GlobalExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
 
-        ResponseErro responseErr = new ResponseErro(400, errors, "/api/v1/creaetaccout/");
+        ResponseErro responseErr = new ResponseErro(400, errors, path);
         return ResponseEntity.badRequest().header("content-Type", "application/json").body(responseErr);
     }
 
@@ -40,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseErro> handleIllegalArgument(IllegalArgumentException ex) {
         Map<String, String> error = Map.of("error", ex.getMessage());
 
-        ResponseErro responseErr = new ResponseErro(400, error, "/api/v1/creataccout");
+        ResponseErro responseErr = new ResponseErro(400, error, path);
 
         return ResponseEntity.badRequest().header("Content-Type","application/json").body(responseErr);
     }

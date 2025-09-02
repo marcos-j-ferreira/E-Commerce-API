@@ -8,15 +8,15 @@ import lombok.*;
 @Data
 public class CreateUserRequest {
     
-        @NotNull(message = "O email é obrigatório")
-        @Email(message = "Email inválido")
+        @NotNull(message = "email is required")
+        @Email(message = "Invalid email")
         String email;
 
-        @NotBlank(message = "O nome não pode estar vazio")
-        @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
+        @NotBlank(message = "The name can't be empty")
+        @Size(min = 3, max = 100, message = "The name must be between 3 and 100 characters long")
         String nome;
 
-        @NotNull(message = "Senha é obrigatória")
-        @Size(min = 6, max = 50, message = "A senha deve ter entre 6 e 50 caracteres")
+        @NotNull(message = "Password is required")
+        @Size(min = 6, max = 50, message = "The passowrd must be between 6 and 50 characters long")
         String password;
 }
