@@ -3,8 +3,6 @@ package com.marcos.ecommerce.search.dtos;
 import lombok.*;
 import java.util.List;
 
-//import com.marcos.ecommerce.buscar.payload.Pr 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
