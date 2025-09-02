@@ -1,24 +1,19 @@
 package com.marcos.ecommerce.product.service;
 
-
-import com.marcos.ecommerce.product.entity.Product;
-import com.marcos.ecommerce.product.dtos.ProductRquestDTO;
 import com.marcos.ecommerce.product.repository.ProductRepository;
-import com.marcos.ecommerce.account.repository.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
-
+import com.marcos.ecommerce.account.repository.UserRepository;
+import com.marcos.ecommerce.product.dtos.ProductRquestDTO;
+import com.marcos.ecommerce.product.entity.Product;
 import com.marcos.ecommerce.account.entity.User;
+import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class ProductService{
 
     private final ProductRepository produtoRepository;
     private final UserRepository usuarioRepository;
-    //private final
 
     @Autowired
     public ProductService(ProductRepository produtoRepository, UserRepository usuarioRepository){
@@ -26,57 +21,49 @@ public class ProductService{
         this.produtoRepository = produtoRepository;
     } 
 
-    public final String createProduct(ProductRquestDTO produtoDTO){
+    public final String createProduct(ProductRquestDTO productDataForCreateNewDTO){
+        Long id = usuarioRepository.searchByEmail(productDataForCreateNewDTO.getEmail());
+        User dataUser = new User();
+        dataUser.setId(id);
 
-        Long id = usuarioRepository.searchByEmail(produtoDTO.getEmail());
-        User usuario = new User();
-        usuario.setId(id);
-
-        Product produto = new Product();
-        produto.setNome(produtoDTO.getNome());
-        produto.setPreco(produtoDTO.getPreco());
-        produto.setDescricao(produtoDTO.getDescricao());
-        produto.setEstoque(produtoDTO.getEstoque());
-        produto.setUsuario(usuario);
-        //produto.setEmail(id);
-
-        //produto.setId(id);
-        produtoRepository.save(produto);
-
-        return "Produto salvo com sucesso";
+        Product product = new Product();
+        product.setNome(productDataForCreateNewDTO.getNome());
+        product.setPreco(productDataForCreateNewDTO.getPreco());
+        product.setDescricao(productDataForCreateNewDTO.getDescricao());
+        product.setEstoque(productDataForCreateNewDTO.getEstoque());
+        product.setUsuario(dataUser);
+        produtoRepository.save(product);
+        return "Product saved with successful!!";
     }
 
-    public final String updatProduct(ProductRquestDTO produtoDTO){
-
-        Long userID = usuarioRepository.searchByEmail(produtoDTO.getEmail());
-        User usuario = new User();
-        usuario.setId(userID);
-
-        Long id = userID;
+    public final String updatProduct(ProductRquestDTO productDataForUpdateDTO){
+        Long userID = usuarioRepository.searchByEmail(productDataForUpdateDTO.getEmail());
+        User user = new User();
+        user.setId(userID);
 
         return produtoRepository.findById(userID)
             .map(produto -> {
-                if (produtoDTO.getNome() != null) {
-                    produto.setNome(produtoDTO.getNome());
+                if (productDataForUpdateDTO.getNome() != null) {
+                    produto.setNome(productDataForUpdateDTO.getNome());
                 }
-                if (produtoDTO.getDescricao() != null) {
-                    produto.setDescricao(produtoDTO.getDescricao());
+                if (productDataForUpdateDTO.getDescricao() != null) {
+                    produto.setDescricao(productDataForUpdateDTO.getDescricao());
                 }
-                if (produtoDTO.getEstoque() == 0) {
-                    produto.setEstoque(produtoDTO.getEstoque());
+                if (productDataForUpdateDTO.getEstoque() == 0) {
+                    produto.setEstoque(productDataForUpdateDTO.getEstoque());
                 }
-                if (produtoDTO.getPreco() == 0) {
-                    produto.setPreco(produtoDTO.getPreco());
+                if (productDataForUpdateDTO.getPreco() == 0) {
+                    produto.setPreco(productDataForUpdateDTO.getPreco());
                 }
-                produto.setUsuario(usuario);
+                produto.setUsuario(user);
                 produtoRepository.save(produto);
-                return "Informações atualizadas com sucesso";
+                return "Information updated successful!!";
             })
-             .orElse("Erro na atualização: usuario nçao encontrao");
+             .orElse("Update erro: user not found");
     }
-
-    public final String deleteProduct(long id){
-        produtoRepository.deleteById(id);
-        return "Produto deletado com sucesso";
+    
+    public final String deleteProduct(long idProduct){
+        produtoRepository.deleteById(idProduct);
+        return "Product deleted successfyl!!";
     }
 }

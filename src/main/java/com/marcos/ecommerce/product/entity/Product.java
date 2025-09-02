@@ -1,10 +1,9 @@
 package com.marcos.ecommerce.product.entity;
 
+import com.marcos.ecommerce.account.entity.User;
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.validation.constraints.*;
-
-import com.marcos.ecommerce.account.entity.User;
 
 @Entity
 @Table(name= "produtos")
@@ -35,6 +34,3 @@ public class Product {
     private User usuario;
 
 }
-
-
-

@@ -4,29 +4,26 @@ import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.*;
 
-//import com.marcos.ecommerce.product.enty.Produtos;
-
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ProductRquestDTO {
 
-    @NotNull(message = "O nome é obrigatorio")
+    @NotNull(message = "name is required")
     @Size(min = 3, max = 100)
     private String nome;
 
-    @NotNull(message = " preço obrigatorio")
+    @NotNull(message = " price is required")
     private double preco;
 
-    @NotNull(message = " número de estoque obrigatorio")
+    @NotNull(message = " number of stock required")
     private int estoque;
 
-    @NotNull(message = "Descrição obrigatorio")
+    @NotNull(message = "Descrobe is required")
     @Size(min = 2, max = 200)
     private String descricao;
 
-    @NotNull(message = "o email é obrigatorio")
-    @Email(message = "email invalido")
+    @NotNull(message = "email is required")
+    @Email(message = "Invalid email")
     private String email;
 }
