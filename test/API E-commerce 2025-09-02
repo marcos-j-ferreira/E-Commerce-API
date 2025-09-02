@@ -1,0 +1,912 @@
+type: collection.insomnia.rest/5.0
+name: Test API
+meta:
+  id: wrk_400a23e7368e42edbd169095fb310919
+  created: 1756725643066
+  modified: 1756725643066
+  description: ""
+collection:
+  - name: Auth
+    meta:
+      id: fld_8354e335bb414bc2a94ad85d8104a5fc
+      created: 1756725674766
+      modified: 1756814811309
+      sortKey: -1756728393360
+      description: ""
+    children:
+      - url: "{{ _.base_url }}auth/login"
+        name: Login/auth
+        meta:
+          id: req_4d4134c12b3f4b199bc52c28e9635654
+          created: 1756725679190
+          modified: 1756727386316
+          isPrivate: false
+          description: ""
+          sortKey: -1756726237271
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": {{ _.email }},
+            	"password":{{ _.password }}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        scripts:
+          afterResponse: |
+            const body = insomnia.response.json();
+
+            insomnia.test('Status é 200 ou 201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+            insomnia.test('Login retornou token', () => {
+              insomnia.expect(body).to.have.property('token');
+            });
+
+            insomnia.environment.set('token', body.token);
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}auth/token"
+        name: test/auth
+        meta:
+          id: req_d775443c181b4141b701bfac19511b2a
+          created: 1756727187047
+          modified: 1756729004383
+          isPrivate: false
+          description: ""
+          sortKey: -1756726237371
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_2ad0ef3054584a65999e6eea1d9b59a7
+          - id: pair_300263e43f0b4887bc3a8cc46494e034
+            name: Authorization
+            value: Bearer {{ token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: |-
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status is 200',  () => {
+            	insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+            insomnia.test('Test auth is ok', () => {
+            	insomnia.expect(body).to.have.property('Status')
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: account
+    meta:
+      id: fld_f687dbdfc8bb4863bb39eee43a9946eb
+      created: 1756729299558
+      modified: 1756814810038
+      sortKey: -1756729299558
+      description: ""
+    children:
+      - url: "{{ _.base_url }}users/newUsers"
+        name: create new user
+        meta:
+          id: req_154196a33d6a4a888e98b0262a07e3cf
+          created: 1756729436119
+          modified: 1756746372568
+          isPrivate: false
+          description: ""
+          sortKey: -1756729436119
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"nome":"Uno",
+            	"email":"Uno@gmail.com",
+            	"password": "12345678"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+        scripts:
+          afterResponse: |-
+            const body = insomnia.response.json();
+
+            insomnia.test('Status é 200 ou 201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 409]);
+            });
+
+            insomnia.test('Login retornou token', () => {
+              insomnia.expect(body).to.have.property('status');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}users/update"
+        name: update user
+        meta:
+          id: req_7e1ba9b067b64fbbaeaf162b8d12bc49
+          created: 1756729662156
+          modified: 1756746263137
+          isPrivate: false
+          description: ""
+          sortKey: -1756729662156
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome":"UnoPlus",
+            	"email":"uno@gmail.com",
+            	"password": "12345678"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_4b10128943dd46ca8564e36c3f72c74f
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_eb6a3f4f627b4fb9aca8883f82cea16c
+          - id: pair_f5827576a5ef4206bd65537355a71672
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: |-
+            const body = insomnia.response.json()
+
+
+            insomnia.test('Status é 200 or 409', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([201, 409]);
+            });
+
+            insomnia.test('Login retornou token', () => {
+              insomnia.expect(body).to.have.property('status');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}users/delete/20"
+        name: delete user
+        meta:
+          id: req_19ec6fa92915495d8a7c4904742b2369
+          created: 1756729872878
+          modified: 1756747619040
+          isPrivate: false
+          description: ""
+          sortKey: -1756729872878
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_c701d0ce0a6f4ef6a66c58283f361b69
+          - id: pair_f992e0919cf74ceab84983f4bbfeb755
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: >-
+            // Pega valor atual do ambiente
+
+            let currentId = insomnia.environment.get('deleteId');
+
+
+            if (!currentId) {
+              currentId = 22; 
+            }
+
+
+            // Converte pra número e soma 1
+
+            let nextId = parseInt(currentId, 10) + 1;
+
+            insomnia.environment.set('deleteId', nextId);
+
+            console.log("Novo deleteId salvo:", nextId);
+
+
+
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status é 200 ou 201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+
+            insomnia.test('Resposta não contém erro de deleção', () => {
+              insomnia.expect(body.message).to.not.equal('Erro ao deletar conta');
+            });
+
+
+            insomnia.test('Body retornou path', () => {
+              insomnia.expect(body).to.have.property('path');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: create product
+    meta:
+      id: fld_bd175d3fcea648869470b8962980b9e3
+      created: 1756730847941
+      modified: 1756814813854
+      sortKey: -1756730847941
+      description: ""
+    children:
+      - url: "{{ _.base_url }}product/create"
+        name: Create new product
+        meta:
+          id: req_50439a5ab3f542c69bad2b1a7ccd944a
+          created: 1756730853461
+          modified: 1756814122222
+          isPrivate: false
+          description: ""
+          sortKey: -1756730853461
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"nome":"Lamborghini",
+            	"preco": 1554656,
+            	"estoque": 3,
+            	"descricao":" white",
+            	"email":"ferrari@gmail.com"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_f5a9bf1ffd7049eb9eb622057e941774
+          - id: pair_bd50e39cca2941ceb0af7c4c2a006ac8
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: >-
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status é 200 ou 201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+
+            insomnia.test('Resposta não contém erro de deleção', () => {
+              insomnia.expect(body.error).to.not.equal('Erro interno no servidor');
+            });
+
+
+            insomnia.test('Body retornou path', () => {
+              insomnia.expect(body).to.have.property('Response');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}product/update"
+        name: update product
+        meta:
+          id: req_1fe9fd13ad0a48ac9ad87e7a1317a811
+          created: 1756731482858
+          modified: 1756818847387
+          isPrivate: false
+          description: ""
+          sortKey: -1756731482858
+        method: POST
+        body:
+          mimeType: application/json
+          text: |+
+            {
+            	"nome":"Lamborghini",
+            	"preco": 1000000,
+            	"estoque": 1,
+            	"descricao":" black",
+            	"email":"ferrari@gmail.com"
+            }
+
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_5d396c852c4d4bf4893a015818926734
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_090fc68d46de47fa9c320f8fb41fca55
+          - id: pair_e2993bc2f81c4551a2d29769088ff607
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: >-
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status is 200 or 201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+
+            insomnia.test('Resposta não contém erro de deletação', () => {
+              insomnia.expect(body.error).to.not.equal('Erro interno no servidor');
+            });
+
+
+            insomnia.test('Body retornou path', () => {
+              insomnia.expect(body).to.have.property('Response');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}product/delete/92"
+        name: Delete product
+        meta:
+          id: req_c50dc25781f6406c813e0e15dec8d512
+          created: 1756731703531
+          modified: 1756814258513
+          isPrivate: false
+          description: ""
+          sortKey: -1756731703531
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_7fb075dbbdab486fb206fdb248356cb6
+          - id: pair_e2a63977d9614a06a1e823078fa4cd9e
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: >
+            // Pega valor atual do ambiente
+
+            let currentId = insomnia.environment.get('deleteProductId');
+
+
+            if (!currentId) {
+              currentId = 70; // valor inicial para produtos
+            }
+
+
+            // Converte pra número e soma 1
+
+            let nextId = parseInt(currentId, 10) + 1;
+
+
+            // Salva de volta no ambiente
+
+            insomnia.environment.set('deleteProductId', nextId);
+
+
+            console.log("Novo deleteProductId salvo:", nextId);
+
+
+
+            // ---------------------
+
+            // Validações
+
+            // ---------------------
+
+
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status is  201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+
+            insomnia.test('Response does not contain deletion error', () => {
+              insomnia.expect(body.message).to.not.equal('Erro ao deletar conta');
+            });
+
+
+            insomnia.test('Body return message', () => {
+              insomnia.expect(body).to.have.property('Message');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Search/query
+    meta:
+      id: fld_4fa10151dbc149a1a3b5a5c261016d02
+      created: 1756732643061
+      modified: 1756814806130
+      sortKey: -1756732643061
+      description: ""
+    children:
+      - url: "{{ _.base_url }}search?nome=Notebook"
+        name: Query with name
+        meta:
+          id: req_495f7b28ab9d436fa27c13d1ea137506
+          created: 1756732507137
+          modified: 1756733207796
+          isPrivate: false
+          description: ""
+          sortKey: -1756733184600
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6312922c2b914822bdcb4cd967ccc7da
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_ca1596e7c08f45cda5043ee93775279c
+        scripts:
+          afterResponse: >
+            const body = insomnia.response.json();
+
+
+            // ✅ Status deve ser 200
+
+            insomnia.test('Status é 200', () => {
+              insomnia.expect(insomnia.response.code).to.equal(200);
+            });
+
+
+            // ✅ Deve ter campo "produtos"
+
+            insomnia.test('Resposta contém produtos', () => {
+              insomnia.expect(body).to.have.property('produtos');
+            });
+
+
+            // ✅ Produtos não pode estar vazio
+
+            insomnia.test('Produtos não está vazio', () => {
+              insomnia.expect(body.produtos).to.be.an('array').that.is.not.empty;
+            });
+
+
+            // ✅ (Opcional) Validar que cada produto tem os campos esperados
+
+            insomnia.test('Produtos possuem campos obrigatórios', () => {
+              body.produtos.forEach(produto => {
+                insomnia.expect(produto).to.have.property('id');
+                insomnia.expect(produto).to.have.property('nome');
+                insomnia.expect(produto).to.have.property('descricao');
+                insomnia.expect(produto).to.have.property('preco');
+                insomnia.expect(produto).to.have.property('estoque');
+              });
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}search?minPreco=200&maxPreco=1000"
+        name: Query with range of price
+        meta:
+          id: req_0c04af266c6345248a86c30087b155f8
+          created: 1756733263210
+          modified: 1756733286124
+          isPrivate: false
+          description: ""
+          sortKey: -1756732444065.5
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6312922c2b914822bdcb4cd967ccc7da
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_ca1596e7c08f45cda5043ee93775279c
+        scripts:
+          afterResponse: >
+            const body = insomnia.response.json();
+
+
+            // ✅ Status deve ser 200
+
+            insomnia.test('Status é 200', () => {
+              insomnia.expect(insomnia.response.code).to.equal(200);
+            });
+
+
+            // ✅ Deve ter campo "produtos"
+
+            insomnia.test('Resposta contém produtos', () => {
+              insomnia.expect(body).to.have.property('produtos');
+            });
+
+
+            // ✅ Produtos não pode estar vazio
+
+            insomnia.test('Produtos não está vazio', () => {
+              insomnia.expect(body.produtos).to.be.an('array').that.is.not.empty;
+            });
+
+
+            // ✅ (Opcional) Validar que cada produto tem os campos esperados
+
+            insomnia.test('Produtos possuem campos obrigatórios', () => {
+              body.produtos.forEach(produto => {
+                insomnia.expect(produto).to.have.property('id');
+                insomnia.expect(produto).to.have.property('nome');
+                insomnia.expect(produto).to.have.property('descricao');
+                insomnia.expect(produto).to.have.property('preco');
+                insomnia.expect(produto).to.have.property('estoque');
+              });
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}search?page=0&size=4"
+        name: Query with page 4
+        meta:
+          id: req_53d944d959f64881aef370910264e150
+          created: 1756733357704
+          modified: 1756733408805
+          isPrivate: false
+          description: ""
+          sortKey: -1756732073798.25
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6312922c2b914822bdcb4cd967ccc7da
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_ca1596e7c08f45cda5043ee93775279c
+        scripts:
+          afterResponse: >
+            const body = insomnia.response.json();
+
+
+            // ✅ Status deve ser 200
+
+            insomnia.test('Status é 200', () => {
+              insomnia.expect(insomnia.response.code).to.equal(200);
+            });
+
+
+            // ✅ Deve ter campo "produtos"
+
+            insomnia.test('Resposta contém produtos', () => {
+              insomnia.expect(body).to.have.property('produtos');
+            });
+
+
+            // ✅ Produtos não pode estar vazio
+
+            insomnia.test('Produtos não está vazio', () => {
+              insomnia.expect(body.produtos).to.be.an('array').that.is.not.empty;
+            });
+
+
+            // ✅ (Opcional) Validar que cada produto tem os campos esperados
+
+            insomnia.test('Produtos possuem campos obrigatórios', () => {
+              body.produtos.forEach(produto => {
+                insomnia.expect(produto).to.have.property('id');
+                insomnia.expect(produto).to.have.property('nome');
+                insomnia.expect(produto).to.have.property('descricao');
+                insomnia.expect(produto).to.have.property('preco');
+                insomnia.expect(produto).to.have.property('estoque');
+              });
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}search?page=0&size=5&sort=preco,desc"
+        name: Query with page with order
+        meta:
+          id: req_8fd0acb02b8e4a18a54072289db015ab
+          created: 1756733420301
+          modified: 1756733425248
+          isPrivate: false
+          description: ""
+          sortKey: -1756731888664.625
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_6312922c2b914822bdcb4cd967ccc7da
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_ca1596e7c08f45cda5043ee93775279c
+        scripts:
+          afterResponse: >
+            const body = insomnia.response.json();
+
+
+            // ✅ Status deve ser 200
+
+            insomnia.test('Status é 200', () => {
+              insomnia.expect(insomnia.response.code).to.equal(200);
+            });
+
+
+            // ✅ Deve ter campo "produtos"
+
+            insomnia.test('Resposta contém produtos', () => {
+              insomnia.expect(body).to.have.property('produtos');
+            });
+
+
+            // ✅ Produtos não pode estar vazio
+
+            insomnia.test('Produtos não está vazio', () => {
+              insomnia.expect(body.produtos).to.be.an('array').that.is.not.empty;
+            });
+
+
+            // ✅ (Opcional) Validar que cada produto tem os campos esperados
+
+            insomnia.test('Produtos possuem campos obrigatórios', () => {
+              body.produtos.forEach(produto => {
+                insomnia.expect(produto).to.have.property('id');
+                insomnia.expect(produto).to.have.property('nome');
+                insomnia.expect(produto).to.have.property('descricao');
+                insomnia.expect(produto).to.have.property('preco');
+                insomnia.expect(produto).to.have.property('estoque');
+              });
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: shopping cart
+    meta:
+      id: fld_4f0032c32cb744dcbe7bb8b29ebd1473
+      created: 1756733587812
+      modified: 1756814803674
+      sortKey: -1756733587813
+      description: ""
+    children:
+      - url: "{{ _.base_url }}cartShopping/add"
+        name: added new item in shopping cart
+        meta:
+          id: req_5b2c57a1fe154f348427d7e170bbd822
+          created: 1756733595349
+          modified: 1756812858353
+          isPrivate: false
+          description: ""
+          sortKey: -1756733729120
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+              "userId": "1",
+              "produtoId": "15",
+              "quantidade": 7
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_bdc74710a887424c9bf67865fa0e5a96
+          - id: pair_6c43c176e3a742279e18296e277c2bdf
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}cartShopping/5"
+        name: Delete shopping cart
+        meta:
+          id: req_36afe082021b4c4b8f34e9e05b876b9f
+          created: 1756733759346
+          modified: 1756813076153
+          isPrivate: false
+          description: ""
+          sortKey: -1756733456860
+        method: GET
+        body:
+          mimeType: application/json
+          text: ""
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.5.0
+            id: pair_bdc74710a887424c9bf67865fa0e5a96
+          - id: pair_6c43c176e3a742279e18296e277c2bdf
+            name: Authorization
+            value: Bearer {{ _.token }}
+            description: ""
+            disabled: false
+        scripts:
+          afterResponse: >
+            // Pega valor atual do ambiente
+
+            let currentId = insomnia.environment.get('deleteShoppingCartId');
+
+
+            if (!currentId) {
+              currentId = 70; // valor inicial para produtos
+            }
+
+
+            // Converte pra número e soma 1
+
+            let nextId = parseInt(currentId, 10) + 1;
+
+
+            // Salva de volta no ambiente
+
+            insomnia.environment.set('deleteShoppingCartId', nextId);
+
+
+            console.log("Novo deleteProductId salvo:", nextId);
+
+
+
+            // ---------------------
+
+            // Validações
+
+            // ---------------------
+
+
+            const body = insomnia.response.json();
+
+
+            insomnia.test('Status is  201', () => {
+              insomnia.expect(insomnia.response.code).to.be.oneOf([200, 201]);
+            });
+
+
+            insomnia.test('Response does not contain deletion error', () => {
+              insomnia.expect(body.message).to.not.equal('Erro ao deletar conta');
+            });
+
+
+            insomnia.test('Body return message', () => {
+              insomnia.expect(body).to.have.property('idCarrinho');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - url: "{{ _.base_url }}users/run"
+    name: test/run
+    meta:
+      id: req_23a95510784948e89f06381b6ae954cd
+      created: 1756729132658
+      modified: 1756809825941
+      isPrivate: false
+      description: ""
+      sortKey: -1756727487162
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.5.0
+        id: pair_a843389ded894495ba7ebfd12623956f
+      - id: pair_78b42177cbe7493d9c6d155cb088360d
+        name: Authorization
+        value: Bearer {{ _.token }}
+        description: ""
+        disabled: false
+    scripts:
+      afterResponse: |+
+        insomnia.test('Status is 200', () => {
+          insomnia.expect(insomnia.response.code).to.equal(200);
+        });
+
+
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_4673e103d4bf63ba4c4c145818fd56f7f12a604b
+    created: 1756725643159
+    modified: 1756814813496
+environments:
+  name: Base Environment
+  meta:
+    id: env_4673e103d4bf63ba4c4c145818fd56f7f12a604b
+    created: 1756725643095
+    modified: 1756814813804
+    isPrivate: false
+  data:
+    base_url: http://192.168.1.111:8080/api/v1/
+    email: '"celta@gmail.com"'
+    password: '"12345678"'
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY4MTQ3OTYsImV4cCI6MTc1NjgxNTE1Nn0.qBakTXR7i42mCwNrhQHKzWJJBa5NhQIjp06xfIOClBw
+    deleteId: 76
+    deleteProductId: 114
+    deleteShoppingCartId: 52
