@@ -1,8 +1,8 @@
 package com.marcos.ecommerce.cart.entity;
 
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.validation.constraints.*;
 
 import java.util.ArrayList;
 import java.util.List;

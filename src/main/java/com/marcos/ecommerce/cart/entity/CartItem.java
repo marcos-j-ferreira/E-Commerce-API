@@ -1,8 +1,8 @@
 package com.marcos.ecommerce.cart.entity;
 
+import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "item_carrinho")

@@ -1,16 +1,11 @@
 package com.marcos.ecommerce.cart.service;
 
-//import com.marcos.ecommerce.cart.dtos.CarrinhoResponse;
-//import com.marcos.ecommerce.cart.dtos.ItemCarrinhoResponse;
-//import com.marcos.ecommerce.cart.dtos.AddItemToCartRequestDTo;
-
 import com.marcos.ecommerce.cart.repository.CartRepository;
 import com.marcos.ecommerce.cart.entity.CartItem;
+import com.marcos.ecommerce.cart.entity.Cart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.marcos.ecommerce.cart.entity.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,23 +16,20 @@ public class CartService {
     @Autowired
     private CartRepository carrinhoRepository;
 
-    public Cart adicionarItem(String userId, String idProduto, int quantidade) {
-        Cart carrinho = carrinhoRepository.findByIdUser(userId)
+    public Cart adicionarItem(String userId, String idProduct, int value) {
+        Cart cartShopping = carrinhoRepository.findByIdUser(userId)
                 .orElseGet(() -> new Cart(null, userId, new ArrayList<>()));
 
         CartItem item = new CartItem();
-        item.setIdProduto(idProduto);
-        item.setQuantidade(quantidade);
-        item.setCarrinho(carrinho);
-
-        carrinho.getItens().add(item);
-
-        return carrinhoRepository.save(carrinho);
+        item.setIdProduto(idProduct);
+        item.setQuantidade(value);
+        item.setCarrinho(cartShopping);
+        cartShopping.getItens().add(item);
+        return carrinhoRepository.save(cartShopping);
     }
 
-    public Cart buscarCarrinho(String userId) {
+    public Cart searchCartShooping(String userId) {
         return carrinhoRepository.findByIdUser(userId)
                 .orElseThrow(() -> new RuntimeException("Cart is not found"));
     }
-
 }

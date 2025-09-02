@@ -2,67 +2,55 @@ package com.marcos.ecommerce.cart.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-import com.marcos.ecommerce.cart.entity.Cart;
 
-
+import com.marcos.ecommerce.cart.dtos.ItemCartShoppingResponse;
 import com.marcos.ecommerce.cart.dtos.AddItemToCartRequestDTO;
 import com.marcos.ecommerce.cart.dtos.CartShoppingResponseDTO;
-import com.marcos.ecommerce.cart.dtos.ItemCartShoppingResponse;
-
 import com.marcos.ecommerce.cart.service.CartService;
+import com.marcos.ecommerce.cart.entity.Cart;
 
 @RestController
-@RequestMapping("/api/v1/carrinho")
+@RequestMapping("/api/v1/cartShopping")
 public class ControllerCart {
 
     @Autowired
-    private CartService carrinhoService;
+    private CartService cartService;
 
-    @PostMapping("/adicionar")
-    public ResponseEntity<CartShoppingResponseDTO> adicionarItem(@RequestBody AddItemToCartRequestDTO request) {
-        Cart carrinho = carrinhoService.adicionarItem(
-                request.getUserId(),
-                request.getProdutoId(),
-                request.getQuantidade()
+    @PostMapping("/add")
+    public ResponseEntity<CartShoppingResponseDTO> addeditemInCartShopping(@RequestBody AddItemToCartRequestDTO dataOfProductForAddInCartShopping) {
+        Cart cart = cartService.adicionarItem(
+                dataOfProductForAddInCartShopping.getUserId(),
+                dataOfProductForAddInCartShopping.getProdutoId(),
+                dataOfProductForAddInCartShopping.getQuantidade()
         );
-
-
-        CartShoppingResponseDTO response = new CartShoppingResponseDTO();
-
-        response.setIdCarrinho(carrinho.getId());
-        response.setUserId(carrinho.getIdUser());
-        response.setItens(
-            carrinho.getItens().stream()
+        CartShoppingResponseDTO responseCartShopping = new CartShoppingResponseDTO();
+        responseCartShopping.setIdCarrinho(cart.getId());
+        responseCartShopping.setUserId(cart.getIdUser());
+        responseCartShopping.setItens(
+            cart.getItens().stream()
                 .map(i -> new ItemCartShoppingResponse(i.getIdProduto(), i.getQuantidade()))
-                .toList() // se estiver em Java 11, use Collectors.toList()
+                .toList()
         );
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responseCartShopping);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<CartShoppingResponseDTO> buscarCarrinho(@PathVariable String userId) {
-        Cart carrinho = carrinhoService.buscarCarrinho(userId);
-
-        CartShoppingResponseDTO response = new CartShoppingResponseDTO(
-                carrinho.getId(),
-                carrinho.getIdUser(),
-                carrinho.getItens().stream()
+    public ResponseEntity<CartShoppingResponseDTO> searchCartShopping(@PathVariable String userId) {
+        Cart cartShopping = cartService.searchCartShooping(userId);
+    
+        CartShoppingResponseDTO responseNewCartShopping = new CartShoppingResponseDTO(
+                cartShopping.getId(),
+                cartShopping.getIdUser(),
+                cartShopping.getItens().stream()
                         .map(i -> new ItemCartShoppingResponse(i.getIdProduto(), i.getQuantidade()))
                         .toList()
         );
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responseNewCartShopping);
     }
 }
