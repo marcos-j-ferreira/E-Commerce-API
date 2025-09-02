@@ -1,7 +1,8 @@
 #!/bin/bash
 
 URL="http://192.168.1.111:8080/api/v1/carrinho/adicionar"
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY2ODI1NDYsImV4cCI6MTc1NjY4MjkwNn0.zpKGFZwsBl9YL0rZ_-x8a2KcR-y30-cgAxxPVoQoZ5Q"
+
+TOKEN="enter with token valid"
 
 # Usuários (IDs de 1 até 21)
 usuarios=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 URL="http://192.168.1.111:8080/api/v1/produtos/criar"
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY0MTc0MjYsImV4cCI6MTc1NjQxNzc4Nn0.xQBx3U7LQAqqYssBCoanBLUVQdT34vTPrRAM3zvIT7c"
+
+TOKEN="enter with token valid"
 
 # Lista de emails dos carros
 emails=(
