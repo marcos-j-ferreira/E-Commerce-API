@@ -1,72 +1,51 @@
 package com.marcos.ecommerce.auth.controller;
 
-// definir que é um controller e rotas
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
-//métodos
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
-// respostas 
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
-
-// validações e injeções
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import jakarta.validation.Valid;
 
-//DTO
 import com.marcos.ecommerce.auth.dtos.AuthUserRequestDTO;
 import com.marcos.ecommerce.auth.dtos.AuthUserResponseDTO;
-
-import com.marcos.ecommerce.auth.service.AuthoService;
+import com.marcos.ecommerce.auth.service. AuthService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 public class ControllerAuth {
 
-    private final AuthoService authoService;
+    private final  AuthService authService;
 
    @Autowired
-    public ControllerAuth(AuthoService authoService){
-        this.authoService = authoService;
+    public ControllerAuth( AuthService authService){
+        this.authService = authService;
     }
 
     @GetMapping("/")
-    public final String test(){
-        String teste = "{\"Status\":\"API rodando com sucesso\"}";
-        return teste;
-    }
-
-    @PostMapping("/loginn")
-    public ResponseEntity<AuthUserResponseDTO> loginn(@RequestBody AuthUserRequestDTO loginDTO){
-        String token = authoService.login(loginDTO.getEmail(), loginDTO.getPassword());
-
-        for(int i = 0; i < 20; i++){
-            System.out.println("Controller - passed: "+ loginDTO);
-        }
-
-        return ResponseEntity.ok(new AuthUserResponseDTO(token));
+    public final String routeForTestRunningAPIWithSimpleMessage(){
+        String ResponseForTestRunOfAPI = "{\"Status\":\"Api running successfully\", \"Test\":\"My applications is runing with devoolss\"}";
+        return ResponseForTestRunOfAPI;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthUserResponseDTO> login(@Valid @RequestBody AuthUserRequestDTO loginDTO){
-        String token = authoService.login(loginDTO.getEmail(), loginDTO.getPassword());
-        AuthUserResponseDTO response = new AuthUserResponseDTO(token);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<AuthUserResponseDTO> routeForLoginOfUser(@Valid @RequestBody AuthUserRequestDTO dataRequestOfuserDTO){
+        String token = authService.login(dataRequestOfuserDTO.getEmail(), dataRequestOfuserDTO.getPassword());
+        AuthUserResponseDTO resonseWithTokenForUser = new AuthUserResponseDTO(token);
+        return ResponseEntity.ok(resonseWithTokenForUser);
     }
 
     @GetMapping("/token")
-    public ResponseEntity<String> testToken(){
+    public ResponseEntity<String> routeForTestIfTokenIsvalid(){
 
-        String response = "{\"Status\":\"Token Valido\"}";
+        String responseIfTokenIsValid = "{\"Status\":\"Token is Valid\"}";
         return ResponseEntity
                 .status(200)
                 .header("Content-Type", "application/json")
-                .body(response);
-                    
+                .body(responseIfTokenIsValid);
     }
 } 

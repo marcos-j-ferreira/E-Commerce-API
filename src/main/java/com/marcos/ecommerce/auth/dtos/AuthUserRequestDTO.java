@@ -9,12 +9,11 @@ import lombok.*;
 
 public class AuthUserRequestDTO {
 
-    @NotNull(message = "o email é obrigatório")
-    @Email(message = "Email inválido")
+    @NotNull(message = "Email is required")
+    @Email(message = "invalid email")
     private String email;
 
-    @NotNull(message = "O nome não pode estar vazio")
-    @Size(min = 6, max = 50, message = "A senha deve ter entre 6 e 50 caracteres")
+    @NotNull(message = "The name can't be empty")
+    @Size(min = 6, max = 50, message = "The password must be between 6 and 50 characters long")
     private String password;
-
 }

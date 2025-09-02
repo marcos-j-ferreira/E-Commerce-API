@@ -1,19 +1,20 @@
 package com.marcos.ecommerce.auth.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-import java.util.Date;
+
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
 import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
     
-    // Gera uma chave segura automaticamente
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRATION_TIME = 100 * 60 * 60; // 1 hora
+    private final long EXPIRATION_TIME = 100 * 60 * 60; // two minutes
     
     public String generateToken(String email){
         return Jwts.builder()
