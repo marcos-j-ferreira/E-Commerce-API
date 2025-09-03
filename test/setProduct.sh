@@ -1,8 +1,14 @@
 #!/bin/bash
 
-URL="http://192.168.1.111:8080/api/v1/produtos/criar"
+
+# Your IP;
+IP="127.0.0.1";
+
+URL="http://$IP:8080/api/v1/produtos/criar"
 
 TOKEN="enter with token valid"
+
+set -e;
 
 # Lista de emails dos carros
 emails=(
@@ -48,7 +54,7 @@ descricoes=(
 
 for i in "${!nomes[@]}"
 do
-  echo "➡️ Criando produto: ${nomes[$i]} para ${emails[$i]}"
+  echo " Criando produto: ${nomes[$i]} para ${emails[$i]}"
   curl -s -X POST $URL \
     -H "Authorization: Bearer $TOKEN" \
     -H "Content-Type: application/json" \

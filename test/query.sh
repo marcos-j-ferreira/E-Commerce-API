@@ -1,35 +1,45 @@
 #!/bin/bash
 
-URL="http://192.168.1.111:8080/api/v1/search"
+#set your IP
+IP="127.0.0.1";
+
+set -e;
+
+URL="http://$IP:8080/api/v1/search"
 
 TOKEN="enter with token valid"
 
-curl -s -X GET "$URL?nome=Notebook" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?nome=Notebook" #-H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 01"
+echo "  "
 
-curl -s -X GET "$URL?categoria=Eletrônicos" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+# curl -s -X GET "$URL?categoria=Eletrônicos" #.../
+curl GET "$URL?sort=nome,asc" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n ---------------------------------- ^ GET 02"
 
-curl -s -X GET "$URL?minPreco=200&maxPreco=1000" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?minPreco=200&maxPreco=1000" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 03"
 
-curl -s -X GET "$URL?nome=Camiseta&maxPreco=150" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?nome=Camiseta&maxPreco=150" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 04"
 
-curl -s -X GET "$URL?page=0&size=5" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?page=0&size=5" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 05"
 
-curl -s -X GET "$URL?page=0&size=5&sort=preco,desc" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?page=0&size=5&sort=preco,desc" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 06"
 
-curl -s -X GET "$URL?categoria=Moda&sort=nome,asc" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+# Is not valid
+# curl GET "$URL?categoria=Moda&sort=nome,asc" #  -H "Authorization: Bearer $TOKEN"
+# echo -e "\n---------------------------------- ^ GET 07"
 
-curl -s -X GET "$URL?page=0&size=10" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?page=0&size=10" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 08"
 
-curl -s -X GET "$URL?maxPreco=100" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+curl GET "$URL?maxPreco=100" # -H "Authorization: Bearer $TOKEN"
+echo -e "\n---------------------------------- ^ GET 09"
 
-curl -s -X GET "$URL?categoria=Eletrônicos&minPreco=500&maxPreco=2000&sort=nome,desc" -H "Authorization: Bearer $TOKEN"
-echo -e "\n----------------------------------"
+
+# is not valid
+# curl -s -X GET "$URL?categoria=Eletrônicos&minPreco=500&maxPreco=2000&sort=nome,desc" # -H "Authorization: Bearer $TOKEN"
+# echo -e "\n----------------------------------"

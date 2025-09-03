@@ -1,6 +1,8 @@
 #!/bin/bash
 
-URL="http://192.168.1.111:8080/api/v1/creataccount/new"
+IP=""127.0.0.1;
+
+URL="http://$IP:8080/api/v1/creataccount/new"
 
 declare -a carros=(
   "BMW" "Audi" "Mercedes" "Ferrari" "Lamborghini"
@@ -11,7 +13,7 @@ declare -a carros=(
 
 for carro in "${carros[@]}"
 do
-  echo "➡️ Criando usuário: $carro"
+  echo " Criando usuário: $carro"
   curl -s -X POST $URL \
     -H "Content-Type: application/json" \
     -d "{
