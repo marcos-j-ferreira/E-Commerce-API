@@ -8,6 +8,7 @@ group = 'com.marcos'
 version = '0.0.1-SNAPSHOT'
 description = 'API de e-commerce'
 
+/*
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
@@ -15,6 +16,7 @@ java {
 		// :/ 
 	}
 }
+*/
 
 configurations {
 	compileOnly {

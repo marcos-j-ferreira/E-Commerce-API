@@ -41,10 +41,8 @@ out/
 *.env
 *.zip
 
-####
-
-/gradle/wrapper
-
+## import :/
+#/gradle/wrapper
 
 ### test 
 */test
