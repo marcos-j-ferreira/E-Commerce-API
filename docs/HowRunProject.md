@@ -6,13 +6,26 @@ To run this project, follow the steps below:
 
 ## Requirements
 
-* **Docker** installed
+* **Docker and Java** installed
 
-My Docker version:
+My Docker and Java version :
 
 ```bash
 /...:~$ docker --version
 Docker version 28.3.3, build 980b856
+
+
+# Java version;
+
+#This is not necessary, as the project will be run on a different version of Java. 
+#However, to ensure integrity and a margin of error of zero percent, 
+#this was the version used for development and testing.
+
+/...:$ java --version
+openjdk 17.0.16 2025-07-15
+OpenJDK Runtime Environment (build 17.0.16+8-Ubuntu-0ubuntu122.04.1)
+OpenJDK 64-Bit Server VM (build 17.0.16+8-Ubuntu-0ubuntu122.04.1, mixed mode, sharing)
+
 ```
 
 ---
