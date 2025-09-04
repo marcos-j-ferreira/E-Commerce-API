@@ -1,8 +1,10 @@
 #!/bin/bash
 
-URL="http://192.168.1.111:8080/api/v1/carrinho/adicionar"
+IP="127.0.0.1"
+URL="http://$IP:8080/api/v1/cartShopping/add"
 
-TOKEN="enter with token valid"
+# Without a token it is not possible to make requests
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY5OTQzNzAsImV4cCI6MTc1Njk5NDczMH0.fGTYU7bDMU-lUnzCfn-sjOn-89ybXKhcNioGVk0421A"
 
 # Usuários (IDs de 1 até 21)
 usuarios=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21)

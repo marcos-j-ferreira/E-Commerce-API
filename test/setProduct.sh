@@ -4,9 +4,11 @@
 # Your IP;
 IP="127.0.0.1";
 
-URL="http://$IP:8080/api/v1/produtos/criar"
+URL="http://$IP:8080/api/v1/product/create"
 
-TOKEN="enter with token valid"
+# Without a token it is not possible to make requests
+
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY5OTQzNzAsImV4cCI6MTc1Njk5NDczMH0.fGTYU7bDMU-lUnzCfn-sjOn-89ybXKhcNioGVk0421A"
 
 set -e;
 
