@@ -67,7 +67,27 @@ ls
 
 ---
 
-## Step 3: Check the logs
+## Step 3: Open the frontend
+
+After the application starts, open the storefront in your browser:
+
+```bash
+http://localhost:8080/
+```
+
+The static frontend is served by Spring Boot from:
+
+```bash
+src/main/resources/static/
+```
+
+For more details, see:
+
+[Frontend Storefront](./FrontendStorefront.md)
+
+---
+
+## Step 4: Check the logs
 
 If everything works correctly, you should see the following log:
 

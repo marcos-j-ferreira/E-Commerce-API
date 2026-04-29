@@ -34,6 +34,7 @@ public class Authorization {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/index.html", "/styles.css", "/app.js", "/favicon.ico").permitAll()
                 .requestMatchers("/api/v1/users/newUsers").permitAll()
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/v1/search/**").permitAll()

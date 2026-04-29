@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-Commerce API Store</title>
+    <link rel="stylesheet" href="/src/main/resources/static/styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Spring Boot Storefront</p>
+        <h1>E-Commerce API</h1>
+      </div>
+      <div class="session-panel">
+        <span id="sessionStatus" class="status-pill">Visitante</span>
+        <button id="logoutButton" class="icon-button" type="button" title="Sair" aria-label="Sair">Sair</button>
+      </div>
+    </header>
+
+    <main class="app-shell">
+      <section class="store-section">
+        <div class="toolbar">
+          <div>
+            <h2>Produtos</h2>
+            <p>Pesquise, filtre e adicione itens ao carrinho.</p>
+          </div>
+          <form id="searchForm" class="search-grid">
+            <label>Nome <input id="searchName" type="search" placeholder="Notebook, teclado..."></label>
+            <label>Preço mínimo <input id="minPrice" type="number" min="0" step="0.01" placeholder="0.00"></label>
+            <label>Preço máximo <input id="maxPrice" type="number" min="0" step="0.01" placeholder="999.00"></label>
+            <button class="primary-button" type="submit">Buscar</button>
+          </form>
+        </div>
+        <div id="productGrid" class="product-grid" aria-live="polite"></div>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Acesso</h2>
+            <button id="validateTokenButton" class="ghost-button" type="button">Validar token</button>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Acesso do usuário">
+            <button class="tab-button active" type="button" data-tab="login">Login</button>
+            <button class="tab-button" type="button" data-tab="register">Cadastro</button>
+          </div>
+          <form id="loginForm" class="stack-form tab-content active">
+            <label>Email <input id="loginEmail" type="email" autocomplete="email" required></label>
+            <label>Senha <input id="loginPassword" type="password" autocomplete="current-password" required></label>
+            <button class="primary-button" type="submit">Entrar</button>
+          </form>
+          <form id="registerForm" class="stack-form tab-content">
+            <label>Nome <input id="registerName" type="text" minlength="3" required></label>
+            <label>Email <input id="registerEmail" type="email" autocomplete="email" required></label>
+            <label>Senha <input id="registerPassword" type="password" minlength="6" autocomplete="new-password" required></label>
+            <button class="primary-button" type="submit">Criar conta</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Carrinho</h2>
+            <button id="loadCartButton" class="ghost-button" type="button">Atualizar</button>
+          </div>
+          <label>Usuário do carrinho <input id="cartUserId" type="text" placeholder="email ou id do usuário"></label>
+          <div id="cartItems" class="cart-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Produto</h2>
+            <button id="deleteProductButton" class="danger-button" type="button">Excluir</button>
+          </div>
+          <form id="productForm" class="stack-form">
+            <label>Nome <input id="productName" type="text" minlength="3" maxlength="100" required></label>
+            <div class="two-columns">
+              <label>Preço <input id="productPrice" type="number" min="0" step="0.01" required></label>
+              <label>Estoque <input id="productStock" type="number" min="0" step="1" required></label>
+            </div>
+            <label>Descrição <textarea id="productDescription" maxlength="200" rows="3" required></textarea></label>
+            <label>Email do vendedor <input id="productEmail" type="email" required></label>
+            <div class="two-columns">
+              <button class="primary-button" type="submit" data-action="create">Criar</button>
+              <button class="ghost-button" type="submit" data-action="update">Atualizar</button>
+            </div>
+            <label>ID para excluir <input id="deleteProductId" type="number" min="1" step="1" placeholder="ID do produto"></label>
+          </form>
+        </section>
+      </aside>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/src/main/resources/static/app.js"></script>
+  </body>
+</html>

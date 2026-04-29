@@ -53,7 +53,7 @@ public class ControllerProduct{
     }
 
     @DeleteMapping("/delete/{id}")
-    public final ResponseEntity<?> deleteProduct(@PathVariable Long idProduct){
+    public final ResponseEntity<?> deleteProduct(@PathVariable("id") Long idProduct){
         String messageResponseReturn = serviceProduto.deleteProduct(idProduct);
         String jsonResponseReturn = "{\"Message\":\" successfully\", \"Response\": \" "+messageResponseReturn+" \"}";
         return ResponseEntity

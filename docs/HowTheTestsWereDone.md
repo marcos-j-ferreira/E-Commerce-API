@@ -4,6 +4,10 @@ To test the API, I used **Insomnia**, a tool that allows sending HTTP requests t
 
 In addition, I also used **cURL scripts** (`.sh` files) to quickly populate the database and perform automated test requests.
 
+The project now also includes automated Gradle tests with JUnit, Mockito, and MockMvc.
+
+> See the automated test documentation: [Automated Tests](./AutomatedTests.md)
+
 ---
 
 ## Tools and Versions
@@ -47,4 +51,32 @@ The following scripts were used to populate the database with test data:
 ---
 
 With these resources, you can reproduce the tests locally or adapt them to your own environment.
+
+---
+
+## Automated Test Suite
+
+Automated tests were added under:
+
+```bash
+src/test/java/com/marcos/ecommerce/
+```
+
+They cover:
+
+* Main API route contracts with `MockMvc`
+* Service layer behavior with Mockito
+* User, authentication, product, search, and cart flows
+
+Run them with:
+
+```bash
+./gradlew test
+```
+
+On Windows:
+
+```bash
+.\gradlew.bat test
+```
 

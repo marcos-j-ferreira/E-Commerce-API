@@ -1,0 +1,81 @@
+name: Java CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  test-build-and-smoke:
+    name: Test, build and API smoke check
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: system-01
+          MYSQL_USER: marcos
+          MYSQL_PASSWORD: senha123
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+
+      - name: Run tests
+        run: ./gradlew test --no-daemon
+
+      - name: Build application
+        run: ./gradlew bootJar --no-daemon
+
+      - name: Start API
+        run: |
+          java -jar build/libs/*.jar > api.log 2>&1 &
+          echo $! > api.pid
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8080/ > /dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          cat api.log
+          exit 1
+
+      - name: Smoke test public storefront
+        run: curl -fsS http://127.0.0.1:8080/ | grep "E-Commerce API"
+
+      - name: Stop API
+        if: always()
+        run: |
+          if [ -f api.pid ]; then
+            kill "$(cat api.pid)" || true
+          fi
