@@ -3,6 +3,8 @@ const state = {
   email: localStorage.getItem("ecommerce.email") || "",
 };
 
+const apiBaseUrl = "http://172.18.220.34:8080"; // Altere para a URL da sua API
+
 const dom = {
   sessionStatus: document.querySelector("#sessionStatus"),
   logoutButton: document.querySelector("#logoutButton"),
@@ -29,7 +31,7 @@ const api = {
       ...options.headers,
     };
 
-    const response = await fetch(path, { ...options, headers });
+    const response = await fetch(`${apiBaseUrl}${path}`, { ...options, headers });
     const text = await response.text();
     const data = parseResponse(text);
 
