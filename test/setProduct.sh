@@ -8,7 +8,9 @@ URL="http://$IP:8080/api/v1/product/create"
 
 # Without a token it is not possible to make requests
 
-TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZWx0YUBnbWFpbC5jb20iLCJpYXQiOjE3NTY5OTQzNzAsImV4cCI6MTc1Njk5NDczMH0.fGTYU7bDMU-lUnzCfn-sjOn-89ybXKhcNioGVk0421A"
+
+ 
+TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZnNjQGdtYWlsIiwiaWF0IjoxNzc3NTA4NTMyLCJleHAiOjE3Nzc1MDg4OTJ9.frpiLb0d2L799QsbHshs7KXsRcIHqMl9HGHNsxPAElM"
 
 set -e;
 

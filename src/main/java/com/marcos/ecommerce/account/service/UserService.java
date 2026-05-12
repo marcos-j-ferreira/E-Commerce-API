@@ -38,7 +38,7 @@ public class UserService {
             return "Error creating user: invalid data";
         }
         usuarioRepository.save(newUser);
-        return "User created sucessfuly";
+        return "User created successful";
     }
 
     public String updatUser(CreateUserRequest dataForUpdateUserRequestDTO) {
